@@ -7,18 +7,46 @@ description: ".NET assembly decompiler CLI tool. Invoke when user needs to decom
 
 ilspycmd is the command-line frontend for ILSpy, the open-source .NET assembly browser and decompiler. It can decompile .NET assemblies back into C# source code, generate portable PDBs, list types, and export full compilable projects. It runs on Windows, macOS, and Linux via the .NET SDK.
 
-## Installation
+## Prerequisites Check (IMPORTANT)
 
-Requires the [.NET SDK](https://dotnet.microsoft.com/download) (6.0+) installed.
+Before running any ilspycmd command, you MUST verify that the tool is available. Run this check first:
+
+```bash
+ilspycmd --version
+```
+
+If the command is not found or errors out, install it:
 
 ```bash
 dotnet tool install --global ilspycmd
 ```
 
-To update to the latest version:
+If `dotnet` itself is not available, install the .NET SDK first from https://dotnet.microsoft.com/download, or via a package manager:
+
+**macOS**:
 
 ```bash
-dotnet tool update --global ilspycmd
+brew install dotnet-sdk
+```
+
+**Ubuntu / Debian**:
+
+```bash
+sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0
+```
+
+**Windows (winget)**:
+
+```powershell
+winget install Microsoft.DotNet.SDK.8
+```
+
+After installing the SDK, retry `dotnet tool install --global ilspycmd`.
+
+In sandbox/CI environments, always prepend the check before decompilation tasks. A one-liner fallback pattern:
+
+```bash
+ilspycmd --version 2>/dev/null || dotnet tool install --global ilspycmd
 ```
 
 ### OS-Specific Notes
